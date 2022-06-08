@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "my-avatar": "/components/my-avatar/my-avatar"
+  }
+}

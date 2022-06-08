@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "my-avatar": "/components/my-avatar/my-avatar",
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons"
+  },
+  "component": true
+}

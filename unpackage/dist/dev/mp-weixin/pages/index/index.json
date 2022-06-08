@@ -1,0 +1,39 @@
+{
+  "enablePullDownRefresh": true,
+  "scrollIndicator": "none",
+  "titleNView": {
+    "searchInput": {
+      "align": "left",
+      "backgroundColor": "#F7F7F7",
+      "sborderRadius": "4px",
+      "disabled": true,
+      "placeholder": "二手书 二手球拍",
+      "placeholderColor": "#CCCCCC"
+    },
+    "buttons": [
+      {
+        "color": "#989898",
+        "colorPressed": "#630075",
+        "float": "left",
+        "fontSize": "22px",
+        "fontSrc": "/static/font/iconfont.ttf",
+        "text": ""
+      },
+      {
+        "color": "#989898",
+        "colorPressed": "#630075",
+        "float": "right",
+        "fontSize": "22px",
+        "fontSrc": "/static/font/iconfont.ttf",
+        "text": ""
+      }
+    ]
+  },
+  "usingComponents": {
+    "my-search": "/components/my-search/my-search",
+    "swiper-image": "/components/index/swiper-image",
+    "index-nav": "/components/index/index-nav",
+    "card": "/components/common/card",
+    "common-list": "/components/common/common-list"
+  }
+}

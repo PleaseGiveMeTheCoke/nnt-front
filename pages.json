@@ -1,0 +1,149 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"enablePullDownRefresh": true,
+				
+				"mp-weixin": {
+					"scrollIndicator": "none",
+					"titleNView": {
+						"searchInput": {
+							"align": "left",
+							"backgroundColor": "#F7F7F7",
+							"sborderRadius": "4px",
+							"disabled": true,
+							"placeholder": "二手书 二手球拍",
+							"placeholderColor": "#CCCCCC"
+						},
+						"buttons": [
+							{
+								"color":"#989898",
+								"colorPressed":"#630075",
+								"float":"left",
+								"fontSize":"22px",
+								"fontSrc":"/static/font/iconfont.ttf",
+								"text":"\ue67a"
+							},
+							{
+								"color":"#989898",
+								"colorPressed":"#630075",
+								"float":"right",
+								"fontSize":"22px",
+								"fontSrc":"/static/font/iconfont.ttf",
+								"text":"\ue661"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/publish/publish",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+            "path" : "pages/message/message",
+            "style" :{
+			}
+        },
+		{
+		    "path" : "pages/search/search",
+		    "style" :{
+			}
+		}
+		,{
+            "path" : "subpkg/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "subpkg/goods_list/goods_list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "subpkg/goods_detail/goods_detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        
+        
+
+        ,{
+            "path" : "pages/chat/chat/chat",
+            "style" :                                                                                    
+            {
+				
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "南哪儿淘",
+		"navigationBarBackgroundColor": "#630075",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#B1B1B1",
+		"selectedColor": "#630075",
+		"borderStyle": "black",
+		"backgroundColor": "#FFFFFF",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"iconPath": "./static/tabber/index.png",
+				"selectedIconPath": "./static/tabber/indexSelected.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/publish/publish",
+				"iconPath": "./static/tabber/publish.png",
+				"selectedIconPath": "./static/tabber/publishSelected.png",
+				"text": "发布"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"iconPath": "static/tabber/msg.png",
+				"selectedIconPath": "static/tabber/msgSelected.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "./static/tabber/my.png",
+				"selectedIconPath": "./static/tabber/mySelected.png",
+				"text": "我的"
+			}
+			
+			
+		]
+	},
+	"easycom": {
+		// 下载安装的方式需要前面的"@/"，npm安装的方式无需"@/"
+		// "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		// npm安装方式
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	}
+}
