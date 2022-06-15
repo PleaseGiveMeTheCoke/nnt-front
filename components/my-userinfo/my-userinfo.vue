@@ -19,7 +19,7 @@
             <text>联系客服</text>
           </view>
           <view class="panel-item">
-            <image src="/static/images/star.png" class="icon"></image>
+            <image src="/static/images/star.png" class="icon" @click="showCollection"></image>
             <text>我的收藏</text>
           </view>
           <view class="panel-item">
@@ -45,7 +45,8 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex'
-
+// 在这里我们继续处理点击收藏后的逻辑
+// 我们的基本想法是，点击收藏后，向后端请求该用户的所有收藏数据，然后类似于index界面的展开就行了
   export default {
     data() {
       return {
@@ -67,7 +68,13 @@
         if (succ && succ.confirm) {
           this.$store.dispatch('logout')
         }
-      }
+      },
+	  showCollection(){
+		  console.log("进入方法中了")
+		  uni.navigateTo({
+		  	url:'/pages/my/mycollect/mycollect'
+		  })
+	  }
     }
   }
 </script>

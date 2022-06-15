@@ -94,6 +94,7 @@
 				},{
 				  icon: 'star',
 				  text: '收藏',
+				  color: '#ff8888',
 				  info: 0
 				}],
 				buttonGroup: [{
@@ -113,6 +114,9 @@
 			
 			const goodsId = options.goodsId;
 		    this.getGoodsDetail(goodsId);
+			const userId = uni.getStorageSync('user_id')
+			console.log('进入关系查询')
+			this.getUserGoodsRelation(goodsId, userId)
 		},
 
 		methods:{
@@ -146,13 +150,33 @@
 				this.user_info.name = res.data.nickname
 				this.user_info.user_id = res.data.openId
 			},
+			async getUserGoodsRelation(goodsId, userId){
+				let info = {
+					userId: '',
+					goodsId: '',
+				}
+				info.userId = userId
+				console.log("************未被数字化前************")
+				info.goodsId = goodsId
+				console.log(info)
+				const { data: res } = await uni.$http.get('/user/userGoodsRelation', info)
+				this.dealCollectIconColor(res.data)
+			},
+			async dealCollectIconColor(msg){
+				if(msg) this.options[2].icon = 'star-filled'
+				else this.options[2].icon = 'star'
+			},
 			preview(i) {
 			  uni.previewImage({
 			    current: i,
 			    urls: this.goods_info.pics.map(x => x.pics_big)
 			  })
 			},
-			onClick(e){
+			async onClick(e){
+				// 开始的第一步，在这里处理好商品收藏，发布，卖家微信和电话
+				// 我们首先处理收藏，那么基本逻辑是，点击后，发给后端，储存
+				// 离谱，后端数据库没有处理收藏相关的逻辑，我们还得先处理好数据库
+				// 
 				if(e.index==0){
 					uni.navigateTo({
 						url: '../../pages/chat/chat/chat?params='+JSON.stringify({
@@ -162,6 +186,26 @@
 						})
 					});
 				}
+				else if(e.index == 1){
+					// 在这里处理举报相关的逻辑
+				}
+				else if(e.index == 2){
+					// 在这里处理收藏相关的逻辑
+					// 整个流程大概是,前端点击收藏,将被收藏商品的id依据post请求发送到后端,然后后端在数据库中记录下用户与商品之间的收藏关系
+					// 成功后返回success
+					this.options[2].backgroundColor = '#ffa200'
+					console.log(this.options[2])
+					let collectInfo = {
+						userId: '',
+						goodsId: '',
+					}
+					collectInfo.userId = uni.getStorageSync('user_id')
+					collectInfo.goodsId = this.goods_info.goods_id
+					const { data: res } = await uni.$http.post('/user/collectGoods ', collectInfo)
+					if(res.code == 200) uni.$showMsg(res.data)
+					this.dealCollectIconColor(res.data === '收藏成功')
+				}
+				
 			}
 		},
 		

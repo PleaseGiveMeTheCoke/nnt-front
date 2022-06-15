@@ -8,7 +8,8 @@
     "subpkg/search/search",
     "subpkg/goods_list/goods_list",
     "subpkg/goods_detail/goods_detail",
-    "pages/chat/chat/chat"
+    "pages/chat/chat/chat",
+    "pages/my/mycollect/mycollect"
   ],
   "subPackages": [],
   "window": {
@@ -52,6 +53,5 @@
   "permission": {},
   "usingComponents": {
     "divider": "/components/common/divider"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }
