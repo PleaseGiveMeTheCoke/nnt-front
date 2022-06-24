@@ -5,7 +5,7 @@
 
 		<block v-for="(item,index) in resdata" :key="index">
 			<view class="span-4 d-flex flex-column j-center a-center py-1"
-			@tap="event(item)">
+			@tap="event(index, item.text)">
 				<image :src="item.src"
 				style="width: 60upx;height: 60upx;"
 				mode="widthFix"></image>
@@ -22,8 +22,23 @@
 			resdata:Array
 		},
 		methods:{
-			event(item){
-				console.log("点击了图标")
+			event(index, item){
+				if(index === 0){
+					// 这里从后端读取数据，按时间逆序排序
+					console.log('准备施展跳转大法')
+					uni.navigateTo({
+						url:'/pages/index/goods_order_byDate/goods_order_byDate'
+					})
+				}
+				else if(index === 9){
+					uni.$showmsg('该功能暂不支持')
+				}
+				else{
+					console.log("点击了图标")
+					uni.navigateTo({
+						url:'/pages/index/myclassify/myclassify?index=' + index + '&item=' + item
+					})
+				}
 			}
 		}
 	}

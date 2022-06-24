@@ -8,7 +8,7 @@
 		<!-- 用户信息区域 -->
 		<view class="d-flex flex-row">
 			<view class="d-flex m-1 a-center">
-			  <image :src="user_info.avatar" class="avatar a-center"></image>
+			  <image :src="user_info.avatar" class="avatar a-center" @click="enterSellerWarehouse"></image>
 			  <view class="flex-column p-2 a-center ">
 			  	<view class="font-weight font-md">{{user_info.name}}</view>
 			  	<view class="font-weight-100 font-sm"> 2022-5-16 发布于 {{goods_info.goods_campus}}</view>
@@ -57,6 +57,11 @@
 		<view class="goods_nav">
 		  <uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick" @buttonClick="buttonClick" />
 		</view>
+		<u-popup v-model="ispopupshow" mode="center" width=320 height=180 closeable=true close-icon-pos="top-right">
+		<view style="margin-top: 30rpx;margin-left: 20rpx;">
+			{{popupmsg}}
+		</view>
+		</u-popup>
 	</view>
 	
 </template>
@@ -94,6 +99,7 @@
 				},{
 				  icon: 'star',
 				  text: '收藏',
+				  color: '#ff8888',
 				  info: 0
 				}],
 				buttonGroup: [{
@@ -106,13 +112,18 @@
 				    backgroundColor: '#ffa200',
 				    color: '#fff'
 				  }
-				]
+				],
+				popupmsg: '暂未知',
+				ispopupshow: false
 			};
 		},
 		onLoad: function (options) {
 			
 			const goodsId = options.goodsId;
 		    this.getGoodsDetail(goodsId);
+			const userId = uni.getStorageSync('user_id')
+			console.log('进入关系查询')
+			this.getUserGoodsRelation(goodsId, userId)
 		},
 
 		methods:{
@@ -146,13 +157,33 @@
 				this.user_info.name = res.data.nickname
 				this.user_info.user_id = res.data.openId
 			},
+			async getUserGoodsRelation(goodsId, userId){
+				let info = {
+					userId: '',
+					goodsId: '',
+				}
+				info.userId = userId
+				console.log("************未被数字化前************")
+				info.goodsId = goodsId
+				console.log(info)
+				const { data: res } = await uni.$http.get('/user/userGoodsRelation', info)
+				this.dealCollectIconColor(res.data)
+			},
+			async dealCollectIconColor(msg){
+				if(msg) this.options[2].icon = 'star-filled'
+				else this.options[2].icon = 'star'
+			},
 			preview(i) {
 			  uni.previewImage({
 			    current: i,
 			    urls: this.goods_info.pics.map(x => x.pics_big)
 			  })
 			},
-			onClick(e){
+			async onClick(e){
+				// 开始的第一步，在这里处理好商品收藏，发布，卖家微信和电话
+				// 我们首先处理收藏，那么基本逻辑是，点击后，发给后端，储存
+				// 离谱，后端数据库没有处理收藏相关的逻辑，我们还得先处理好数据库
+				// 
 				if(e.index==0){
 					uni.navigateTo({
 						url: '../../pages/chat/chat/chat?params='+JSON.stringify({
@@ -162,6 +193,43 @@
 						})
 					});
 				}
+				else if(e.index == 1){
+					// 在这里处理举报相关的逻辑
+				}
+				else if(e.index == 2){
+					// 在这里处理收藏相关的逻辑
+					// 整个流程大概是,前端点击收藏,将被收藏商品的id依据post请求发送到后端,然后后端在数据库中记录下用户与商品之间的收藏关系
+					// 成功后返回success
+					this.options[2].backgroundColor = '#ffa200'
+					console.log(this.options[2])
+					let collectInfo = {
+						userId: '',
+						goodsId: '',
+					}
+					collectInfo.userId = uni.getStorageSync('user_id')
+					collectInfo.goodsId = this.goods_info.goods_id
+					const { data: res } = await uni.$http.post('/user/collectGoods ', collectInfo)
+					if(res.code == 200) uni.$showMsg(res.data)
+					this.dealCollectIconColor(res.data === '收藏成功')
+				}
+			},
+			async buttonClick(e){
+				if(e.index == 0){
+					// 这里处理卖家微信展示逻辑
+					// uni.$showMsg(this.goods_info.goods_weixin)
+					this.popupmsg = this.goods_info.goods_weixin
+				}
+				else{
+					// 这里处理卖家电话展示逻辑
+					// uni.$showMsg(this.goods_info.goods_phone)
+					this.popupmsg = this.goods_info.goods_phone
+				}
+				this.ispopupshow = true
+			},
+			enterSellerWarehouse(){
+					  uni.navigateTo({
+					  	url:'/pages/my/sellerwarehouse/sellerwarehouse?sellerId=' + this.goods_info.goods_userId
+					  })
 			}
 		},
 		
@@ -254,4 +322,5 @@
   .goods-detail-container {
     padding-bottom: 50px;
   }
+  
 </style>
