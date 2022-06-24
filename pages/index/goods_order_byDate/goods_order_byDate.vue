@@ -61,7 +61,7 @@
 					
 				],
 				loadText:"上拉加载更多",
-				pageIndex:1
+
 			}
 			
 		},
@@ -86,16 +86,11 @@
 				})
 			},
 			async __init(){
-				const query = {
-					page:1,
-					userId: ''
-				}
-				query.userId = uni.getStorageSync('user_id')
-				const { data: goodsList } = await uni.$http.get('/user/listAllCollections', query)
+				const { data: goodsList } = await uni.$http.get('/goods/getAllGoodsOrderByTime', {})
 				
 				console.log(goodsList)
 				if (goodsList.code !== 200) return uni.$showMsg('查询失败!')
-				if(goodsList.data.length == 0) uni.$showMsg("你还未收藏商品")
+				if(goodsList.data.length == 0) uni.$showMsg("未查询到任何商品")
 				else{
 					for(var i = 0; i<goodsList.data.length;i++){
 						

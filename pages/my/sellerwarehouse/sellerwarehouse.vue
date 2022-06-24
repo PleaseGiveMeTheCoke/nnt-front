@@ -37,7 +37,6 @@
 	export default {
 		created() {
 			console.log("hello world")
-			this.__init()
 		},
 		components:{
 			indexNav,
@@ -60,8 +59,9 @@
 					}
 					
 				],
+				sellerId:'',
 				loadText:"上拉加载更多",
-				pageIndex:1
+				pageIndex: 1 ,
 			}
 			
 		},
@@ -69,12 +69,14 @@
 		onReady() {
 			
 		},
-		onLoad() {
+		onLoad(options) {
 			 uni.getSystemInfo({
 			 	success:(res)=>{
 			 		this.scrollH = (res.screenHeight * (750 / res.windowWidth))-50
 			 	}
 			 })	
+			 this.sellerId = options.sellerId
+			 this.__init()
 		},
 		methods: {
 		
@@ -90,12 +92,13 @@
 					page:1,
 					userId: ''
 				}
-				query.userId = uni.getStorageSync('user_id')
-				const { data: goodsList } = await uni.$http.get('/user/listAllCollections', query)
+				query.userId = this.sellerId
+				console.log('%%%%%%%%%')
+				console.log(query.userId)
+				const { data: goodsList } = await uni.$http.get('/goods/getAllPublish', query)
 				
 				console.log(goodsList)
 				if (goodsList.code !== 200) return uni.$showMsg('查询失败!')
-				if(goodsList.data.length == 0) uni.$showMsg("你还未收藏商品")
 				else{
 					for(var i = 0; i<goodsList.data.length;i++){
 						

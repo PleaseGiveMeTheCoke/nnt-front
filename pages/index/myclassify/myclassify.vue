@@ -1,6 +1,6 @@
 <template>
 	<view >
-		
+		<view style="text-align: center;font-size: 3ex;">{{itemName}}</view>
 		<block>
 			<!-- <common-list :item ="item" :index = "index"></common-list> -->
 			<view class="Index">
@@ -37,7 +37,6 @@
 	export default {
 		created() {
 			console.log("hello world")
-			this.__init()
 		},
 		components:{
 			indexNav,
@@ -60,8 +59,10 @@
 					}
 					
 				],
+				classIndex: 0,
 				loadText:"上拉加载更多",
-				pageIndex:1
+				pageIndex: 1 ,
+				itemName:''
 			}
 			
 		},
@@ -69,12 +70,16 @@
 		onReady() {
 			
 		},
-		onLoad() {
+		onLoad(options) {
 			 uni.getSystemInfo({
 			 	success:(res)=>{
 			 		this.scrollH = (res.screenHeight * (750 / res.windowWidth))-50
 			 	}
 			 })	
+			 this.classIndex = options.index
+			 this.itemName = options.item
+			 console.log(this.itemName)
+			 this.__init()
 		},
 		methods: {
 		
@@ -88,14 +93,15 @@
 			async __init(){
 				const query = {
 					page:1,
-					userId: ''
+					classIndex: 0
 				}
-				query.userId = uni.getStorageSync('user_id')
-				const { data: goodsList } = await uni.$http.get('/user/listAllCollections', query)
+				query.classIndex = Number(this.classIndex)
+				console.log("************")
+				console.log(query)
+				const { data: goodsList } = await uni.$http.get('/goods/getAllGoodsByClassify', query)
 				
 				console.log(goodsList)
 				if (goodsList.code !== 200) return uni.$showMsg('查询失败!')
-				if(goodsList.data.length == 0) uni.$showMsg("你还未收藏商品")
 				else{
 					for(var i = 0; i<goodsList.data.length;i++){
 						

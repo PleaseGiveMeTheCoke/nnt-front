@@ -125,15 +125,13 @@
 				},
 				
 				range: [
-				  { value: 0, text: "数码产品" },
-				  { value: 1, text: "生活用品" },
+				  { value: 0, text: "学习用品" },
+				  { value: 1, text: "户外用品" },
+				  { value: 2, text: "宿舍用品" },
 				  { value: 3, text: "服装配饰" },
-				  { value: 4, text: "学习用品" },
-				  { value: 5, text: "运动健身" },
-				  { value: 6, text: "美妆个护" },
-				  { value: 7, text: "文玩艺术" },
-				  { value: 8, text: "技能服务" },
-				  { value: 9, text: "美味零食" },
+				  { value: 4, text: "数码用品" },
+				  { value: 6, text: "技能服务" },
+				  { value: 7, text: "求助帮忙" },
 				  { value: 10, text: "其他" },
 				],
 				

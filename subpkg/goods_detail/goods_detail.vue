@@ -8,7 +8,7 @@
 		<!-- 用户信息区域 -->
 		<view class="d-flex flex-row">
 			<view class="d-flex m-1 a-center">
-			  <image :src="user_info.avatar" class="avatar a-center"></image>
+			  <image :src="user_info.avatar" class="avatar a-center" @click="enterSellerWarehouse"></image>
 			  <view class="flex-column p-2 a-center ">
 			  	<view class="font-weight font-md">{{user_info.name}}</view>
 			  	<view class="font-weight-100 font-sm"> 2022-5-16 发布于 {{goods_info.goods_campus}}</view>
@@ -57,6 +57,11 @@
 		<view class="goods_nav">
 		  <uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick" @buttonClick="buttonClick" />
 		</view>
+		<u-popup v-model="ispopupshow" mode="center" width=320 height=180 closeable=true close-icon-pos="top-right">
+		<view style="margin-top: 30rpx;margin-left: 20rpx;">
+			{{popupmsg}}
+		</view>
+		</u-popup>
 	</view>
 	
 </template>
@@ -107,7 +112,9 @@
 				    backgroundColor: '#ffa200',
 				    color: '#fff'
 				  }
-				]
+				],
+				popupmsg: '暂未知',
+				ispopupshow: false
 			};
 		},
 		onLoad: function (options) {
@@ -205,7 +212,24 @@
 					if(res.code == 200) uni.$showMsg(res.data)
 					this.dealCollectIconColor(res.data === '收藏成功')
 				}
-				
+			},
+			async buttonClick(e){
+				if(e.index == 0){
+					// 这里处理卖家微信展示逻辑
+					// uni.$showMsg(this.goods_info.goods_weixin)
+					this.popupmsg = this.goods_info.goods_weixin
+				}
+				else{
+					// 这里处理卖家电话展示逻辑
+					// uni.$showMsg(this.goods_info.goods_phone)
+					this.popupmsg = this.goods_info.goods_phone
+				}
+				this.ispopupshow = true
+			},
+			enterSellerWarehouse(){
+					  uni.navigateTo({
+					  	url:'/pages/my/sellerwarehouse/sellerwarehouse?sellerId=' + this.goods_info.goods_userId
+					  })
 			}
 		},
 		
@@ -298,4 +322,5 @@
   .goods-detail-container {
     padding-bottom: 50px;
   }
+  
 </style>

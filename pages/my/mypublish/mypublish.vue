@@ -91,11 +91,11 @@
 					userId: ''
 				}
 				query.userId = uni.getStorageSync('user_id')
-				const { data: goodsList } = await uni.$http.get('/user/listAllCollections', query)
+				const { data: goodsList } = await uni.$http.get('/goods/getAllPublish', query)
 				
 				console.log(goodsList)
 				if (goodsList.code !== 200) return uni.$showMsg('查询失败!')
-				if(goodsList.data.length == 0) uni.$showMsg("你还未收藏商品")
+				if(goodsList.data.length == 0) uni.$showMsg("你还未发布商品")
 				else{
 					for(var i = 0; i<goodsList.data.length;i++){
 						

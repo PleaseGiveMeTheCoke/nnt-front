@@ -23,7 +23,7 @@
             <text>我的收藏</text>
           </view>
           <view class="panel-item">
-            <image src="/static/images/sell.png" class="icon"></image>
+            <image src="/static/images/sell.png" class="icon"@click="showMyPublish"></image>
             <text>我的发布</text>
           </view>
           
@@ -70,9 +70,13 @@
         }
       },
 	  showCollection(){
-		  console.log("进入方法中了")
 		  uni.navigateTo({
 		  	url:'/pages/my/mycollect/mycollect'
+		  })
+	  },
+	  showMyPublish(){
+		  uni.navigateTo({
+		  	url:'/pages/my/mypublish/mypublish'
 		  })
 	  }
     }
